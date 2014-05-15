@@ -73,15 +73,19 @@ public class NumberConverter {
 	}
 
 	private void deleteLastChar() {
-		if (cursorPosition < 9) {
-			digits[cursorPosition].resetIteration();
-		}
 		if (currWord.length() > 0) {
 			currWord = currWord.substring(0, currWord.length() - 1);
 		}
 	}
 
+	private void resetLastCharIterator() {
+		if (cursorPosition < 9) {
+			digits[cursorPosition].resetIteration();
+		}
+	}
+
 	private void moveCursorLeft() {
+		resetLastCharIterator();
 		deleteLastChar();
 		cursorRight = false;
 		cursorPosition--;
@@ -111,11 +115,15 @@ public class NumberConverter {
 		}
 		for (int i = 0; i < 9; i++) {
 				char curChar = number.charAt(i);
-				if(curChar<'0'||curChar>'9'){
+				if(!isDigit(curChar)){
 					return false;
 				}
 				digits[i] = new Digit(curChar);
 		}
 		return true;
+	}
+
+	private boolean isDigit(char curChar) {
+		return curChar>='0'&&curChar<='9';
 	}
 }

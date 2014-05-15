@@ -53,7 +53,9 @@ public class NumberConverter {
 	private String currWord = "";
 	
 	public String convert(String number) {
-		initDigits(number);
+		if(!initDigits(number)){
+			return "ERROR";
+		}
 		while (isAnythingToDo()) {
 			digits[cursorPosition].increaseIteration();
 			if (digits[cursorPosition].isMoreValue()) {
@@ -102,10 +104,18 @@ public class NumberConverter {
 		return (cursorRight == true) || (cursorPosition != -1);
 	}
 
-	private void initDigits(String number) {
+	private boolean initDigits(String number) {
 		digits = new Digit[9];
-		for (int i = 0; i < 9; i++) {
-			digits[i] = new Digit(number.charAt(i));
+		if(number.length()!=9) {
+			return false;
 		}
+		for (int i = 0; i < 9; i++) {
+				char curChar = number.charAt(i);
+				if(curChar<'0'||curChar>'9'){
+					return false;
+				}
+				digits[i] = new Digit(curChar);
+		}
+		return true;
 	}
 }
